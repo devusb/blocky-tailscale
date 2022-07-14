@@ -1,5 +1,9 @@
 {
-  description = "A very basic flake";
+  description = "blocky-tailscale";
+
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+  };
 
   outputs = { self, nixpkgs }: rec {
 
