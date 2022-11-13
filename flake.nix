@@ -10,7 +10,7 @@
     pkgs = nixpkgs.legacyPackages.x86_64-linux;
 
     blockyConfig = pkgs.writeText "blocky.cfg" ''
-      port: 53
+      port: 5353
       httpPort: 4000
       upstream:
         default:
@@ -53,7 +53,7 @@
       exec ${pkgs.tailscale}/bin/tailscaled --state=/tailscale/tailscaled.state &
       ${pkgs.blocky}/bin/blocky -c ${blockyConfig}
     '';
-    
+
     dockerImage = pkgs.dockerTools.buildImage {
       name = "blocky-tailscale";
       copyToRoot = pkgs.buildEnv {
@@ -68,11 +68,11 @@
           pkgs.cacert
         ];
       };
-      config.Cmd = [ "${entrypoint}/bin/entrypoint.sh" ]; 
+      config.Cmd = [ "${entrypoint}/bin/entrypoint.sh" ];
       config.Env = [
         "GIT_SSL_CAINFO=${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"
         "SSL_CERT_FILE=${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"
-        ];
+      ];
     };
 
 
