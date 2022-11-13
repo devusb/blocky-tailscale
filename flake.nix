@@ -10,11 +10,11 @@
     pkgs = nixpkgs.legacyPackages.x86_64-linux;
 
     blockyConfig = pkgs.writeText "blocky.cfg" ''
-      port: 5353
+      port: 53
       httpPort: 4000
       upstream:
         default:
-          - 127.0.0.1
+          - 127.0.0.1:5353
       blocking:
         blackLists:
           ads:
@@ -42,6 +42,7 @@
 
       # specify the interface to answer queries from by ip-address.
       interface: 0.0.0.0
+      port: 5353
       # interface: ::0
 
       # addresses from the IP range that are allowed to connect to the resolver
@@ -62,7 +63,7 @@
       # Wait 5s for the daemon to start and then run tailscale up to configure
       /bin/sh -c "${pkgs.coreutils}/bin/sleep 5; ${pkgs.tailscale}/bin/tailscale up --accept-routes --accept-dns --authkey=$TAILSCALE_AUTHKEY" &
       exec ${pkgs.tailscale}/bin/tailscaled --state=/tailscale/tailscaled.state &
-      ${pkgs.unbound}/bin/unbound -d -p -vv -c ${unboundConfig} &
+      ${pkgs.unbound}/bin/unbound -d -p -c ${unboundConfig} &
       ${pkgs.blocky}/bin/blocky -c ${blockyConfig}
     '';
 
