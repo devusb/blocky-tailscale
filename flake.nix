@@ -15,6 +15,8 @@
       upstream:
         default:
           - 127.0.0.1:5353
+      prometheus:
+        enable: true
       blocking:
         blackLists:
           ads:
