@@ -70,12 +70,14 @@
                 listen 80;
                 listen [::]:80;
             
+                location = /dns-query {
+                  deny all;
+                }
                 location /dns-query {
-                    proxy_pass http://localhost:4000/dns-query;
+                  proxy_pass http://localhost:4000/dns-query;
                 }
                 location / {
                   deny all;
-                  return 404;
                 }
             }
           }
