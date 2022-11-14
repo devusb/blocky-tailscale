@@ -6,7 +6,7 @@ kill_timeout = 5
 processes = []
 
 [[services]]
-  internal_port = 4000
+  internal_port = 80
   protocol = "tcp"
 
 [[services.ports]]
