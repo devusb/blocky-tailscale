@@ -105,21 +105,18 @@
                 coreutils
                 blocky
                 tailscale
-                cacert
+                dockerTools.caCertificates
                 unbound
                 nginx
-                fakeNss
+                dockerTools.fakeNss
               ];
               config.Cmd = [ "${entrypoint}/bin/entrypoint.sh" ];
-              config.Env = [
-                "GIT_SSL_CAINFO=${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"
-                "SSL_CERT_FILE=${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"
-              ];
               extraCommands = ''
                 # nginx still tries to read this directory even if error_log
                 # directive is specifying another file :/
                 mkdir -p var/log/nginx
                 mkdir -p var/cache/nginx
+                mkdir -p tmp
               '';
             };
         in
